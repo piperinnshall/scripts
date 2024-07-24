@@ -1,21 +1,22 @@
 #!/opt/homebrew/bin/fish
 
-# Check if the first argument is '-t'
-if test (count $argv) -eq 2
+if test (count $argv) -ge 2
     switch $argv[1]
-        case '-t'
-            # Get the transparency value from the second argument
-            set transparencyValue $argv[2]
-            
-            # Run the AppleScript with the transparency value
-            osascript ~/Developer/scripts/applescript/iterm2/transparency.scpt $transparencyValue
+        case '-t' # transparency
+            if test $argv[2] = '-d'
+                set transparencyValue 0.2
+                osascript ~/Developer/scripts/applescript/iterm2/transparency.scpt $transparencyValue
+            else
+                set transparencyValue $argv[2]
+                osascript ~/Developer/scripts/applescript/iterm2/transparency.scpt $transparencyValue
+            end
         case '*'
-            # If not '-t', just print an error message or handle other cases
             echo "Usage: iterm -t <transparency_value>"
             return 1
     end
 else
     # Print usage if incorrect number of arguments
-    echo "Usage: iterm -t <transparency_value>"
+    echo "Usage: iterm -t <transparency_value> | iterm -t -d"
     return 1
 end
+
