@@ -3,12 +3,14 @@
 if test (count $argv) -ge 2
     switch $argv[1]
         case '-t' # transparency
-            if test $argv[2] = '-d'
+            if test $argv[2] = '-get'
+                osascript ~/Developer/scripts/applescript/iterm2/getTransparency.scpt 
+            else if test $argv[2] = '-d'
                 set transparencyValue 0.2
-                osascript ~/Developer/scripts/applescript/iterm2/transparency.scpt $transparencyValue
+                osascript ~/Developer/scripts/applescript/iterm2/setTransparency.scpt $transparencyValue
             else
                 set transparencyValue $argv[2]
-                osascript ~/Developer/scripts/applescript/iterm2/transparency.scpt $transparencyValue
+                osascript ~/Developer/scripts/applescript/iterm2/setTransparency.scpt $transparencyValue
             end
         case '*'
             echo "Usage: iterm -t <transparency_value>"
