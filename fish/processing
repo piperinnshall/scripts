@@ -1,0 +1,5 @@
+#!/opt/homebrew/bin/fish
+
+Processing
+
+osascript /Users/piperinnshall/Developer/scripts

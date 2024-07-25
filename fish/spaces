@@ -1,0 +1,17 @@
+#!/opt/homebrew/bin/fish
+
+if test (count $argv) -ge 2
+    switch $argv[1]
+        case '-m' # change
+            set sid $argv[2]
+            osascript ~/Developer/scripts/applescript/desktop/moveSpace.scpt $sid
+        case '*'
+            echo "Usage: spaces -m <sid>"
+            return 1
+    end
+else
+    # Print usage if incorrect number of arguments
+    echo "Usage: spaces -m <sid>"
+    return 1
+end
+
