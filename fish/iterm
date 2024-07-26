@@ -4,9 +4,22 @@ if test (count $argv) -ge 2
     switch $argv[1]
         case '-t' # transparency
             if test $argv[2] = '-get'
-                osascript ~/Developer/scripts/applescript/iterm2/getTransparency.scpt 
+                osascript ~/Developer/scripts/applescript/iterm2/getTransparency.scpt
             else if test $argv[2] = '-d'
                 set transparencyValue 0.2
+                osascript ~/Developer/scripts/applescript/iterm2/setTransparency.scpt $transparencyValue
+            else if test $argv[2] = '-to'
+                set currentTransparency (osascript ~/Developer/scripts/applescript/iterm2/getTransparency.scpt | tr -d '\n')
+                # Round to 1 decimal place
+                set currentTransparency (printf "%.1f" $currentTransparency)
+                if test "$currentTransparency" = "0.0"
+                    set transparencyValue 0.2
+                else if test "$currentTransparency" = "0.2"
+                    set transparencyValue 0.0
+                else
+                    echo "Unknown transparency value: $currentTransparency"
+                    return 1
+                end
                 osascript ~/Developer/scripts/applescript/iterm2/setTransparency.scpt $transparencyValue
             else
                 set transparencyValue $argv[2]
@@ -18,7 +31,6 @@ if test (count $argv) -ge 2
     end
 else
     # Print usage if incorrect number of arguments
-    echo "Usage: iterm -t <transparency_value> | iterm -t -d"
+    echo "Usage: iterm -t <transparency_value> | iterm -t -d | iterm -t -to"
     return 1
 end
-
